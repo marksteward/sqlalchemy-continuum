@@ -5,9 +5,15 @@ on:
   pull_request:
   schedule:
     - cron: '40 1 * * 3'
+  workflow_dispatch:
 
 
 jobs:
+  all:
+    name: all
+    needs: lint
+    runs-on: ubuntu-latest
+
   lint:
     name: lint
     runs-on: ubuntu-latest
@@ -86,8 +92,3 @@ jobs:
         run: uv run pytest
         env:
           DB: ${{ matrix.db-engine }}
-
-  all:
-    name: Run all jobs
-    needs: [lint, test]
-
